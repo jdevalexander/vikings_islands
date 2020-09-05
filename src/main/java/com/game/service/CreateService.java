@@ -30,22 +30,26 @@ public class CreateService {
 
 
         //Create new Islands with names, and Map of Names islands and directions
-        fileLines.forEach(s -> {
+        try {
+            fileLines.forEach(s -> {
 
-            String islandName = s.substring(0, s.indexOf(" "));
+                String islandName = s.substring(0, s.indexOf(" "));
 
-            Map<String, String> directionsMap = new HashMap<>();
+                Map<String, String> directionsMap = new HashMap<>();
 
-            Stream.of(s.substring(s.indexOf(" ")).split(" "))
-                    .filter(s1 -> !s1.equals(""))
-                    .forEach(s1 -> {
-                        directionsMap.put(s1.substring(0, s1.indexOf("=")), s1.substring(s1.indexOf("=") + 1));
-                    });
-            mapIslands.put(islandName, directionsMap);
+                Stream.of(s.substring(s.indexOf(" ")).split(" "))
+                        .filter(s1 -> !s1.equals(""))
+                        .forEach(s1 -> directionsMap.put(s1.substring(0, s1.indexOf("=")), s1.substring(s1.indexOf("=") + 1)));
 
-            Island island = new Island().setName(islandName);
-            islands.add(island);
-        });
+                mapIslands.put(islandName, directionsMap);
+
+                Island island = new Island().setName(islandName);
+                islands.add(island);
+            });
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Error while reading lines in file");
+            return new ArrayList<>();
+        }
 
         //Take directions of islands
         islands.forEach(island -> {
