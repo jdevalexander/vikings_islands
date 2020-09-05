@@ -49,9 +49,16 @@ public class Island {
 
     @Override
     public String toString() {
-        return "Island{" +
-                "name='" + name + '\'' +
-                ", direction=" + direction.keySet() +
-                '}';
+
+        StringBuilder stringBuilder = new StringBuilder();
+        direction.forEach((directionEnum, islandName) -> {
+                    stringBuilder.append(directionEnum.toString().toLowerCase());
+                    stringBuilder.append("=");
+                    stringBuilder.append(islandName);
+                    stringBuilder.append(" ");
+                }
+        );
+
+        return name + " " + stringBuilder;
     }
 }
